@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>For You ♡</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffd6e7, #fff0f6);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #b83270;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            color: #ff7eb6;
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-10vh);
+                opacity: 0;
+            }
+        }
+
+        /* Main card */
+        .card {
+            width: 90%;
+            max-width: 650px;
+            min-height: 500px;
+            background: rgba(255, 255, 255, 0.75);
+            border: 2px solid #ffb6d5;
+            border-radius: 25px;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(190, 70, 120, 0.15);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page {
+            width: 100%;
+            display: none;
+            animation: fadeIn 0.7s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .small {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #c95b8d;
+        }
+
+        h1 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            color: #c93678;
+        }
+
+        h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #c93678;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #7d3b58;
+            margin-bottom: 25px;
+        }
+
+        .heart-big {
+            font-size: 55px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        button {
+            border: none;
+            background: #f278aa;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.25s;
+            margin: 8px;
+            box-shadow: 0 5px 15px rgba(242, 120, 170, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            background: #df5f94;
+        }
+
+        .secondary {
+            background: transparent;
+            color: #c93678;
+            border: 1px solid #f278aa;
+            box-shadow: none;
+        }
+
+        .secondary:hover {
+            background: #ffe1ed;
+        }
+
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+            color: #c93678;
+        }
+
+        .progress {
+            position: fixed;
+            bottom: 20px;
+            font-size: 13px;
+            color: #c95b8d;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+
+            .card {
+                min-height: 500px;
+                padding: 35px 22px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+
+            button {
+                width: 85%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating hearts -->
+    <div class="heart" style="left:10%; animation-delay:0s;">♡</div>
+    <div class="heart" style="left:30%; animation-delay:2s;">♡</div>
+    <div class="heart" style="left:50%; animation-delay:4s;">♡</div>
+    <div class="heart" style="left:75%; animation-delay:1s;">♡</div>
+    <div class="heart" style="left:90%; animation-delay:3s;">♡</div>
+
+
+    <div class="card">
+
+        <!-- PAGE 1 -->
+        <section class="page active" id="page1">
+
+            <div class="heart-big">♡</div>
+
+            <div class="small">
+                Hi, eto na yung link.<br>
+                Akala mo research paper no. HAHAHAHAHAHA
+            </div>
+
+            <h1>
+                There's something<br>
+                I want to tell you
+            </h1>
+
+            <p>
+                Pero bago yon,
+                <br>
+                are you sure you want to know?
+            </p>
+
+            <button onclick="nextPage()">
+                Click mo to kung Oo ♡
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 2 -->
+        <section class="page" id="page2">
+
+            <div class="heart-big">♡</div>
+
+            <h2>
+                Wow... you clicked it.
+            </h2>
+
+            <p>
+                Well, there's no going back na HAHAHA.
+                <br><br>
+                Don't worry, this isn't anything bad.
+            </p>
+
+            <button onclick="nextPage()">
+                Click please.
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 3 -->
+        <section class="page" id="page3">
+
+            <h2>
+                I'll start with something simple.
+            </h2>
+
+            <p>
+                You're someone who's become really
+                important to me.
+                <br><br>
+
+                I genuinely enjoy talking to you,
+                spending time with you,
+                and just having you around.
+            </p>
+
+            <button onclick="nextPage()">
+                Continue →
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 4 -->
+        <section class="page" id="page4">
+
+            <div class="heart-big">♡</div>
+
+            <h2>
+                But I'm not done yet.
+            </h2>
+
+            <p>
+                And maybe you've already noticed
+                because of all the things I say.
+                <br><br>
+
+                or maybe you just thought
+                I was being annoying again HAHAHA.
+            </p>
+
+            <button onclick="nextPage()">
+                Wanna know the real reason? ♡ →
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 5 -->
+        <section class="page" id="page5">
+
+            <h1>
+                So, here it is.
+            </h1>
+
+            <p>
+                <b>I really like you.</b>
+                <br><br>
+
+                Not just because you're my friend.
+                I actually developed real feelings for you.
+                <br><br>
+
+                And yes,
+                <b>I'm being serious this time.</b>
+            </p>
+
+            <button onclick="nextPage()">
+                Read the full confession ♡
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 6 -->
+        <section class="page" id="page6">
+
+            <div class="heart-big">♥</div>
+
+            <h2>
+                My actual confession
+            </h2>
+
+            <p>
+                I've been wanting to tell you this properly
+                for a while now.
+                <br><br>
+
+                I like you. Genuinely.
+                <br><br>
+
+                I know I joke around a lot and
+                I annoy you most of the time,
+                so I understand why you might think
+                I'm just teasing you.
+                <br><br>
+
+                But whenever I say that I like you,
+                I actually mean it.
+            </p>
+
+            <button onclick="nextPage()">
+                There's one more thing →
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 7 -->
+        <section class="page" id="page7">
+
+            <h2>
+                No pressure. ♡
+            </h2>
+
+            <p>
+           I'm just telling you this because
+          <br>
+           I wanna be honest with my feelings for you.
+         <br><br>
+
+          I'm not telling you this because
+          I expect you to feel the same way.
+         <br><br>
+
+         I just wanted you to finally hear it
+         from me directly instead of
+         through jokes.
+         <br><br>
+
+         Whatever happens,
+          I still value our friendship.
+         </p>
+
+            <button onclick="nextPage()">
+                 last page →
+            </button>
+
+        </section>
+
+
+        <!-- PAGE 8 -->
+        <section class="page" id="page8">
+
+            <div class="heart-big">♡</div>
+
+            <h1>
+                That's all. :)
+            </h1>
+
+            <p>
+                Thank you for reading everything.
+                <br><br>
+
+                And yeah
+                now you finally know.
+            </p>
+
+            <div class="signature">
+                — from someone who genuinely likes you ♡
+            </div>
+
+            <br>
+
+            <button class="secondary" onclick="restart()">
+                Read again
+            </button>
+
+        </section>
+
+    </div>
+
+
+    <div class="progress" id="progress">
+        1 / 8
+    </div>
+
+
+    <script>
+
+        let currentPage = 1;
+        const totalPages = 8;
+
+        function nextPage() {
+
+            // Hide current page
+            document
+                .getElementById("page" + currentPage)
+                .classList.remove("active");
+
+            // Go to next page
+            currentPage++;
+
+            // Show next page
+            document
+                .getElementById("page" + currentPage)
+                .classList.add("active");
+
+            // Update progress
+            document.getElementById("progress").innerText =
+                currentPage + " / " + totalPages;
+        }
+
+
+        function restart() {
+
+            document
+                .getElementById("page" + currentPage)
+                .classList.remove("active");
+
+            currentPage = 1;
+
+            document
+                .getElementById("page1")
+                .classList.add("active");
+
+            document.getElementById("progress").innerText =
+                "1 / " + totalPages;
+        }
+
+    </script>
+
+</body>
+</html>
