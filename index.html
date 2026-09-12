@@ -1,219 +1,1401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>For You ♡</title>
+<title>For You ♡</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffd6e7, #fff0f6);
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            color: #b83270;
-        }
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Pacifico&family=Cormorant+Garamond:wght@500;600;700&display=swap" rel="stylesheet">
 
-        /* Floating hearts */
-        .heart {
-            position: fixed;
-            color: #ff7eb6;
-            font-size: 20px;
-            animation: float 6s linear infinite;
-            opacity: 0.6;
-        }
+<style>
 
-        @keyframes float {
-            0% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
+/* =====================================================
+   BASIC RESET
+===================================================== */
 
-            20% {
-                opacity: 0.7;
-            }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-            100% {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
-        }
+body {
+    min-height: 100vh;
 
-        /* Main card */
-        .card {
-            width: 90%;
-            max-width: 650px;
-            min-height: 500px;
-            background: rgba(255, 255, 255, 0.75);
-            border: 2px solid #ffb6d5;
-            border-radius: 25px;
-            padding: 45px 35px;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(190, 70, 120, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    overflow-x: hidden;
 
-        .page {
-            width: 100%;
-            display: none;
-            animation: fadeIn 0.7s ease;
-        }
+    padding: 35px 15px;
 
-        .page.active {
-            display: block;
-        }
+    font-family: "DM Sans", sans-serif;
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
+    background:
+        radial-gradient(circle at 10% 10%,
+            rgba(255,255,255,.9),
+            transparent 23%),
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        radial-gradient(circle at 90% 10%,
+            rgba(255,164,205,.7),
+            transparent 27%),
 
-        .small {
-            font-size: 16px;
-            margin-bottom: 20px;
-            color: #c95b8d;
-        }
+        radial-gradient(circle at 15% 90%,
+            rgba(255,184,218,.7),
+            transparent 30%),
 
-        h1 {
-            font-size: 38px;
-            margin-bottom: 20px;
-            color: #c93678;
-        }
+        radial-gradient(circle at 90% 90%,
+            rgba(255,255,255,.7),
+            transparent 25%),
 
-        h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #c93678;
-        }
+        linear-gradient(
+            135deg,
+            #ffc7df,
+            #ffe7f1,
+            #ffd1e5,
+            #fff0f6
+        );
 
-        p {
-            font-size: 17px;
-            line-height: 1.8;
-            color: #7d3b58;
-            margin-bottom: 25px;
-        }
+    position: relative;
+}
 
-        .heart-big {
-            font-size: 55px;
-            margin-bottom: 20px;
-            animation: heartbeat 1.5s infinite;
-        }
 
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-            }
+/* =====================================================
+   BACKGROUND BLUR ORBS
+===================================================== */
 
-            50% {
-                transform: scale(1.15);
-            }
-        }
+body::before,
+body::after {
 
-        button {
-            border: none;
-            background: #f278aa;
-            color: white;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.25s;
-            margin: 8px;
-            box-shadow: 0 5px 15px rgba(242, 120, 170, 0.25);
-        }
+    content: "";
 
-        button:hover {
-            transform: translateY(-3px);
-            background: #df5f94;
-        }
+    position: fixed;
 
-        .secondary {
-            background: transparent;
-            color: #c93678;
-            border: 1px solid #f278aa;
-            box-shadow: none;
-        }
+    border-radius: 50%;
 
-        .secondary:hover {
-            background: #ffe1ed;
-        }
+    filter: blur(70px);
 
-        .signature {
-            margin-top: 30px;
-            font-style: italic;
-            color: #c93678;
-        }
+    pointer-events: none;
 
-        .progress {
-            position: fixed;
-            bottom: 20px;
-            font-size: 13px;
-            color: #c95b8d;
-        }
+    z-index: 0;
+}
 
-        /* Mobile */
-        @media (max-width: 600px) {
+body::before {
 
-            .card {
-                min-height: 500px;
-                padding: 35px 22px;
-            }
+    width: 300px;
+    height: 300px;
 
-            h1 {
-                font-size: 30px;
-            }
+    background: rgba(255,105,170,.25);
 
-            h2 {
-                font-size: 24px;
-            }
+    top: -100px;
+    left: -100px;
+}
 
-            p {
-                font-size: 15px;
-            }
+body::after {
 
-            button {
-                width: 85%;
-            }
-        }
-    </style>
+    width: 350px;
+    height: 350px;
+
+    background: rgba(255,190,220,.45);
+
+    bottom: -130px;
+    right: -130px;
+}
+
+
+/* =====================================================
+   PAPER WRAPPER
+===================================================== */
+
+.paper {
+
+    position: relative;
+
+    z-index: 5;
+
+    width: min(650px, 94vw);
+
+    min-height: 720px;
+
+    padding: 18px;
+
+    border-radius: 28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.75),
+            rgba(255,238,246,.65)
+        );
+
+    box-shadow:
+        0 35px 90px rgba(160,55,100,.25),
+        0 10px 30px rgba(190,80,130,.15);
+
+    backdrop-filter: blur(15px);
+
+    border: 1px solid rgba(255,255,255,.8);
+}
+
+
+/* =====================================================
+   ACTUAL LETTER PAPER
+===================================================== */
+
+.letter {
+
+    position: relative;
+
+    width: 100%;
+    min-height: 680px;
+
+    padding: 65px 60px 75px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background-color: #fffafc;
+
+    background-image:
+
+        radial-gradient(
+            rgba(210,100,140,.045) 1px,
+            transparent 1px
+        );
+
+    background-size: 14px 14px;
+
+    border: 1px solid #f5d5e2;
+
+    box-shadow:
+
+        inset 0 0 50px rgba(220,120,160,.06),
+
+        0 10px 35px rgba(130,50,90,.12);
+}
+
+
+/* =====================================================
+   PAPER INNER BORDER
+===================================================== */
+
+.letter::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 15px;
+
+    border:
+        1px solid rgba(218,110,151,.22);
+
+    border-radius: 12px;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   PAPER DECORATIVE CORNERS
+===================================================== */
+
+.corner {
+
+    position: absolute;
+
+    color: #e49ab8;
+
+    opacity: .7;
+
+    font-size: 28px;
+
+    z-index: 2;
+}
+
+.corner.top-left {
+    top: 28px;
+    left: 28px;
+}
+
+.corner.top-right {
+    top: 28px;
+    right: 28px;
+}
+
+.corner.bottom-left {
+    bottom: 28px;
+    left: 28px;
+}
+
+.corner.bottom-right {
+    bottom: 28px;
+    right: 28px;
+}
+
+
+/* =====================================================
+   FLOWER DECORATIONS
+===================================================== */
+
+.flower {
+
+    position: absolute;
+
+    color: #efa7c3;
+
+    opacity: .45;
+
+    font-size: 32px;
+
+    pointer-events: none;
+}
+
+.flower.one {
+    top: 85px;
+    left: 25px;
+    transform: rotate(-20deg);
+}
+
+.flower.two {
+    top: 85px;
+    right: 25px;
+    transform: rotate(20deg);
+}
+
+.flower.three {
+    bottom: 90px;
+    left: 25px;
+    transform: rotate(20deg);
+}
+
+.flower.four {
+    bottom: 90px;
+    right: 25px;
+    transform: rotate(-20deg);
+}
+
+
+/* =====================================================
+   PAGE SYSTEM
+===================================================== */
+
+.page {
+
+    width: 100%;
+
+    text-align: center;
+
+    display: none;
+
+    opacity: 0;
+
+    transform:
+        translateX(35px)
+        rotateY(-4deg)
+        scale(.97);
+}
+
+.page.active {
+
+    display: block;
+
+    animation:
+        pageOpen
+        .65s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+
+@keyframes pageOpen {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translateX(35px)
+            rotateY(-5deg)
+            scale(.97);
+
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translateX(0)
+            rotateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* =====================================================
+   TEXT
+===================================================== */
+
+.small {
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    color: #a1607c;
+
+    margin-bottom: 24px;
+
+    letter-spacing: .3px;
+}
+
+
+h1 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(43px, 7vw, 58px);
+
+    line-height: 1.05;
+
+    color: #b84272;
+
+    margin-bottom: 28px;
+
+    font-weight: 700;
+
+    letter-spacing: -.5px;
+}
+
+
+h2 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(34px, 6vw, 45px);
+
+    line-height: 1.1;
+
+    color: #b84272;
+
+    margin-bottom: 27px;
+
+    font-weight: 700;
+}
+
+
+p {
+
+    max-width: 485px;
+
+    margin: 0 auto 34px;
+
+    color: #765263;
+
+    font-size: 16px;
+
+    line-height: 1.85;
+}
+
+
+b {
+    color: #b83d70;
+}
+
+
+/* =====================================================
+   HEART
+===================================================== */
+
+.heart-big {
+
+    font-size: 80px;
+
+    color: #e95f97;
+
+    margin-bottom: 18px;
+
+    display: inline-block;
+
+    filter:
+        drop-shadow(
+            0 10px 15px
+            rgba(225,75,135,.22)
+        );
+
+    animation:
+        heartBeat
+        2.2s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.12);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.08);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+button {
+
+    position: relative;
+
+    border: none;
+
+    padding:
+        15px 28px;
+
+    border-radius: 50px;
+
+    color: white;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ed71a7,
+            #d94e88
+        );
+
+    box-shadow:
+
+        0 12px 25px
+        rgba(211,72,127,.25),
+
+        inset 0 1px 0
+        rgba(255,255,255,.4);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+button::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 1px;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.18),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+button:hover {
+
+    transform:
+        translateY(-4px)
+        scale(1.025);
+
+    box-shadow:
+
+        0 18px 35px
+        rgba(211,72,127,.35),
+
+        inset 0 1px 0
+        rgba(255,255,255,.5);
+}
+
+
+button:active {
+
+    transform:
+        translateY(0)
+        scale(.97);
+}
+
+
+/* =====================================================
+   SECONDARY BUTTON
+===================================================== */
+
+button.secondary {
+
+    background:
+        rgba(255,255,255,.7);
+
+    color: #c34d7b;
+
+    border:
+        1px solid
+        rgba(195,77,123,.2);
+
+    box-shadow:
+        0 8px 20px
+        rgba(160,70,110,.12);
+}
+
+
+button.secondary:hover {
+
+    background:
+        rgba(255,255,255,.95);
+}
+
+
+/* =====================================================
+   SIGNATURE
+===================================================== */
+
+.signature {
+
+    font-family:
+        "Pacifico",
+        cursive;
+
+    font-size: 18px;
+
+    color: #c14d7b;
+
+    margin-top: 15px;
+
+    transform: rotate(-2deg);
+
+    display: inline-block;
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+.progress {
+
+    position: absolute;
+
+    bottom: 29px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color: #b96b89;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    background:
+        rgba(255,225,237,.7);
+
+    padding:
+        7px 15px;
+
+    border-radius: 20px;
+
+    border:
+        1px solid
+        rgba(207,104,145,.12);
+}
+
+
+/* =====================================================
+   FLOATING HEARTS
+===================================================== */
+
+.floating-heart {
+
+    position: fixed;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    color:
+        rgba(226,77,137,.42);
+
+    animation:
+        floatUp
+        linear
+        infinite;
+}
+
+
+@keyframes floatUp {
+
+    0% {
+
+        transform:
+            translateY(110vh)
+            rotate(0deg)
+            scale(.7);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: .8;
+    }
+
+    90% {
+        opacity: .8;
+    }
+
+    100% {
+
+        transform:
+            translateY(-120px)
+            rotate(40deg)
+            scale(1.15);
+
+        opacity: 0;
+    }
+
+}
+
+
+/* =====================================================
+   SPARKLES
+===================================================== */
+
+.sparkle {
+
+    position: fixed;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    color:
+        rgba(255,255,255,.95);
+
+    animation:
+        sparkle
+        3s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scale(.4)
+            rotate(0deg);
+    }
+
+    50% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.3)
+            rotate(90deg);
+    }
+
+}
+
+
+/* =====================================================
+   FINAL PAGE
+===================================================== */
+
+#page8 .heart-big {
+    font-size: 90px;
+}
+
+#page8 h1 {
+
+    font-family:
+        "Pacifico",
+        cursive;
+
+    font-weight: 400;
+
+    font-size:
+        clamp(40px, 8vw, 58px);
+}
+
+
+/* =====================================================
+   HIDDEN SURPRISE BUTTON
+===================================================== */
+
+.surprise-button {
+
+    display: none;
+
+    margin-top: 22px;
+
+    opacity: 0;
+
+    animation:
+        surpriseAppear
+        1s
+        ease
+        forwards;
+}
+
+
+.surprise-button button {
+
+    background:
+        rgba(255,255,255,.75);
+
+    color: #c24c7b;
+
+    border:
+        1px solid
+        rgba(195,77,123,.2);
+
+    box-shadow:
+        0 8px 25px
+        rgba(190,70,120,.15);
+
+    font-size: 13px;
+
+    padding:
+        11px 20px;
+}
+
+
+@keyframes surpriseAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   SURPRISE OVERLAY
+===================================================== */
+
+.surprise-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(174,72,116,.28);
+
+    backdrop-filter:
+        blur(14px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .5s ease;
+}
+
+
+.surprise-overlay.show {
+
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* =====================================================
+   ENVELOPE
+===================================================== */
+
+.envelope-container {
+
+    position: relative;
+
+    width: min(390px, 90vw);
+
+    text-align: center;
+
+    transform:
+        translateY(35px)
+        scale(.9);
+
+    transition:
+        transform .7s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+.surprise-overlay.show
+.envelope-container {
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+.envelope {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 250px;
+
+    margin-bottom: 25px;
+
+    perspective: 900px;
+}
+
+
+/* envelope body */
+
+.envelope-body {
+
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffe1ed,
+            #ffc7dd
+        );
+
+    box-shadow:
+        0 25px 60px
+        rgba(130,50,90,.25);
+
+    overflow: hidden;
+}
+
+
+/* envelope triangular flap */
+
+.envelope-flap {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 130px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffd0e2,
+            #f7afcb
+        );
+
+    clip-path:
+        polygon(
+            0 0,
+            100% 0,
+            50% 100%
+        );
+
+    transform-origin: top;
+
+    z-index: 5;
+
+    transition:
+        transform .9s
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+.envelope.open
+.envelope-flap {
+
+    transform:
+        rotateX(180deg);
+
+}
+
+
+/* letter inside envelope */
+
+.secret-letter {
+
+    position: absolute;
+
+    width: 86%;
+
+    height: 205px;
+
+    left: 7%;
+
+    bottom: 8px;
+
+    padding:
+        35px 20px;
+
+    border-radius: 10px;
+
+    background: #fffafc;
+
+    border:
+        1px solid
+        #f2d3df;
+
+    box-shadow:
+        0 5px 20px
+        rgba(150,60,100,.12);
+
+    z-index: 2;
+
+    transform:
+        translateY(0);
+
+    transition:
+        transform 1s
+        cubic-bezier(.2,.8,.2,1);
+
+}
+
+
+.envelope.open
+.secret-letter {
+
+    transform:
+        translateY(-125px);
+
+}
+
+
+/* secret text */
+
+.secret-letter h3 {
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    color: #b84272;
+
+    font-size: 28px;
+
+    margin-bottom: 15px;
+}
+
+
+.secret-letter p {
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color: #795064;
+
+    margin: 0;
+}
+
+
+.secret-signature {
+
+    margin-top: 13px;
+
+    font-family:
+        "Pacifico",
+        cursive;
+
+    font-size: 15px;
+
+    color: #c34d7b;
+}
+
+
+/* =====================================================
+   SURPRISE TITLE
+===================================================== */
+
+.surprise-title {
+
+    color: white;
+
+    font-family:
+        "Pacifico",
+        cursive;
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+
+    text-shadow:
+        0 3px 12px
+        rgba(120,40,80,.25);
+}
+
+
+.surprise-subtitle {
+
+    color:
+        rgba(255,255,255,.9);
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   CLOSE BUTTON
+===================================================== */
+
+.close-surprise {
+
+    background:
+        rgba(255,255,255,.9);
+
+    color: #c24c7b;
+
+    padding:
+        11px 22px;
+
+    font-size: 13px;
+
+    box-shadow:
+        0 8px 20px
+        rgba(120,40,80,.15);
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        padding:
+            15px 10px;
+    }
+
+    .paper {
+
+        width: 96vw;
+
+        min-height: 650px;
+
+        padding: 10px;
+
+        border-radius: 22px;
+    }
+
+    .letter {
+
+        min-height: 630px;
+
+        padding:
+            55px 25px 70px;
+
+        border-radius: 15px;
+    }
+
+    .letter::before {
+        inset: 10px;
+    }
+
+    .corner {
+        font-size: 21px;
+    }
+
+    .corner.top-left,
+    .corner.bottom-left {
+        left: 18px;
+    }
+
+    .corner.top-right,
+    .corner.bottom-right {
+        right: 18px;
+    }
+
+    .flower {
+        font-size: 25px;
+    }
+
+    .flower.one,
+    .flower.three {
+        left: 16px;
+    }
+
+    .flower.two,
+    .flower.four {
+        right: 16px;
+    }
+
+    p {
+
+        font-size: 15px;
+
+        line-height: 1.75;
+    }
+
+    button {
+
+        font-size: 14px;
+
+        padding:
+            14px 22px;
+    }
+
+    .envelope {
+        height: 220px;
+    }
+
+    .secret-letter {
+        height: 185px;
+    }
+
+    .envelope-flap {
+        height: 115px;
+    }
+
+    .envelope.open
+    .secret-letter {
+        transform:
+            translateY(-105px);
+    }
+
+}
+
+
+/* =====================================================
+   REDUCE MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+
+}
+
+</style>
 </head>
+
 
 <body>
 
-    <!-- Floating hearts -->
-    <div class="heart" style="left:10%; animation-delay:0s;">♡</div>
-    <div class="heart" style="left:30%; animation-delay:2s;">♡</div>
-    <div class="heart" style="left:50%; animation-delay:4s;">♡</div>
-    <div class="heart" style="left:75%; animation-delay:1s;">♡</div>
-    <div class="heart" style="left:90%; animation-delay:3s;">♡</div>
+
+<!-- =====================================================
+     BACKGROUND HEARTS
+===================================================== -->
+
+<div class="floating-heart"
+     style="left:5%; font-size:20px; animation-duration:12s;">
+    ♡
+</div>
+
+<div class="floating-heart"
+     style="left:18%; font-size:16px; animation-duration:15s; animation-delay:3s;">
+    ♥
+</div>
+
+<div class="floating-heart"
+     style="left:34%; font-size:24px; animation-duration:13s; animation-delay:6s;">
+    ♡
+</div>
+
+<div class="floating-heart"
+     style="left:52%; font-size:18px; animation-duration:16s; animation-delay:1s;">
+    ♥
+</div>
+
+<div class="floating-heart"
+     style="left:70%; font-size:23px; animation-duration:14s; animation-delay:5s;">
+    ♡
+</div>
+
+<div class="floating-heart"
+     style="left:88%; font-size:19px; animation-duration:17s; animation-delay:2s;">
+    ♥
+</div>
 
 
-    <div class="card">
+<!-- =====================================================
+     SPARKLES
+===================================================== -->
 
-        <!-- PAGE 1 -->
+<div class="sparkle"
+     style="left:10%; top:18%;">
+    ✦
+</div>
+
+<div class="sparkle"
+     style="left:86%; top:15%; animation-delay:1s;">
+    ✧
+</div>
+
+<div class="sparkle"
+     style="left:93%; top:73%; animation-delay:2s;">
+    ✦
+</div>
+
+<div class="sparkle"
+     style="left:7%; top:75%; animation-delay:1.5s;">
+    ✧
+</div>
+
+<div class="sparkle"
+     style="left:50%; top:7%; animation-delay:.5s;">
+    ✦
+</div>
+
+
+<!-- =====================================================
+     PAPER
+===================================================== -->
+
+<div class="paper">
+
+    <div class="letter">
+
+
+        <!-- PAPER CORNERS -->
+
+        <div class="corner top-left">
+            ❀
+        </div>
+
+        <div class="corner top-right">
+            ❀
+        </div>
+
+        <div class="corner bottom-left">
+            ❀
+        </div>
+
+        <div class="corner bottom-right">
+            ❀
+        </div>
+
+
+        <!-- FLOWERS -->
+
+        <div class="flower one">
+            ❀
+        </div>
+
+        <div class="flower two">
+            ❀
+        </div>
+
+        <div class="flower three">
+            ❀
+        </div>
+
+        <div class="flower four">
+            ❀
+        </div>
+
+
+        <!-- =================================================
+             PAGE 1
+        ================================================= -->
+
         <section class="page active" id="page1">
 
-            <div class="heart-big">♡</div>
+            <div class="heart-big">
+                ♡
+            </div>
 
             <div class="small">
                 Hi, eto na yung link.<br>
@@ -238,10 +1420,15 @@
         </section>
 
 
-        <!-- PAGE 2 -->
+        <!-- =================================================
+             PAGE 2
+        ================================================= -->
+
         <section class="page" id="page2">
 
-            <div class="heart-big">♡</div>
+            <div class="heart-big">
+                ♡
+            </div>
 
             <h2>
                 Wow... you clicked it.
@@ -260,7 +1447,10 @@
         </section>
 
 
-        <!-- PAGE 3 -->
+        <!-- =================================================
+             PAGE 3
+        ================================================= -->
+
         <section class="page" id="page3">
 
             <h2>
@@ -284,10 +1474,15 @@
         </section>
 
 
-        <!-- PAGE 4 -->
+        <!-- =================================================
+             PAGE 4
+        ================================================= -->
+
         <section class="page" id="page4">
 
-            <div class="heart-big">♡</div>
+            <div class="heart-big">
+                ♡
+            </div>
 
             <h2>
                 But I'm not done yet.
@@ -309,7 +1504,10 @@
         </section>
 
 
-        <!-- PAGE 5 -->
+        <!-- =================================================
+             PAGE 5
+        ================================================= -->
+
         <section class="page" id="page5">
 
             <h1>
@@ -335,10 +1533,15 @@
         </section>
 
 
-        <!-- PAGE 6 -->
+        <!-- =================================================
+             PAGE 6
+        ================================================= -->
+
         <section class="page" id="page6">
 
-            <div class="heart-big">♥</div>
+            <div class="heart-big">
+                ♥
+            </div>
 
             <h2>
                 My actual confession
@@ -369,7 +1572,10 @@
         </section>
 
 
-        <!-- PAGE 7 -->
+        <!-- =================================================
+             PAGE 7
+        ================================================= -->
+
         <section class="page" id="page7">
 
             <h2>
@@ -402,10 +1608,15 @@
         </section>
 
 
-        <!-- PAGE 8 -->
+        <!-- =================================================
+             PAGE 8
+        ================================================= -->
+
         <section class="page" id="page8">
 
-            <div class="heart-big">♡</div>
+            <div class="heart-big">
+                ♡
+            </div>
 
             <h1>
                 That's all. :)
@@ -425,63 +1636,494 @@
 
             <br>
 
-            <button class="secondary" onclick="restart()">
+            <button class="secondary"
+                    onclick="showSurpriseButton()">
                 Read again
             </button>
 
+
+            <!-- HIDDEN SURPRISE BUTTON -->
+
+            <div class="surprise-button"
+                 id="surpriseButton">
+
+                <button onclick="openSurprise()">
+                    wait... there's actually one more thing ♡
+                </button>
+
+            </div>
+
         </section>
 
+
+        <!-- =================================================
+             PROGRESS
+        ================================================= -->
+
+        <div class="progress"
+             id="progress">
+
+            1 / 8
+
+        </div>
+
     </div>
 
+</div>
 
-    <div class="progress" id="progress">
-        1 / 8
+
+<!-- =====================================================
+     SURPRISE OVERLAY
+===================================================== -->
+
+<div class="surprise-overlay"
+     id="surpriseOverlay">
+
+    <div class="envelope-container">
+
+
+        <div class="surprise-title">
+            One last thing... 💌
+        </div>
+
+        <div class="surprise-subtitle">
+            You really thought that was the end? HAHAHA
+        </div>
+
+
+        <!-- ENVELOPE -->
+
+        <div class="envelope"
+             id="envelope">
+
+            <div class="envelope-body"></div>
+
+
+            <!-- SECRET LETTER -->
+
+            <div class="secret-letter">
+
+                <h3>
+                    ♡
+                </h3>
+
+                <p>
+                    Whatever your answer is,
+                    <br>
+                    I'm glad you know now.
+                </p>
+
+                <div class="secret-signature">
+                    — genuinely, from me ♡
+                </div>
+
+            </div>
+
+
+            <!-- ENVELOPE FLAP -->
+
+            <div class="envelope-flap"></div>
+
+        </div>
+
+
+        <button class="close-surprise"
+                onclick="closeSurprise()">
+
+            okay okay, that's really all ♡
+
+        </button>
+
     </div>
 
-
-    <script>
-
-        let currentPage = 1;
-        const totalPages = 8;
-
-        function nextPage() {
-
-            // Hide current page
-            document
-                .getElementById("page" + currentPage)
-                .classList.remove("active");
-
-            // Go to next page
-            currentPage++;
-
-            // Show next page
-            document
-                .getElementById("page" + currentPage)
-                .classList.add("active");
-
-            // Update progress
-            document.getElementById("progress").innerText =
-                currentPage + " / " + totalPages;
-        }
+</div>
 
 
-        function restart() {
+<script>
 
-            document
-                .getElementById("page" + currentPage)
-                .classList.remove("active");
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
 
-            currentPage = 1;
+let currentPage = 1;
 
-            document
-                .getElementById("page1")
-                .classList.add("active");
+const totalPages = 8;
 
-            document.getElementById("progress").innerText =
-                "1 / " + totalPages;
-        }
 
-    </script>
+function nextPage() {
+
+    const current =
+        document.getElementById(
+            "page" + currentPage
+        );
+
+    current.classList.remove("active");
+
+
+    currentPage++;
+
+
+    const next =
+        document.getElementById(
+            "page" + currentPage
+        );
+
+    next.classList.add("active");
+
+
+    document.getElementById(
+        "progress"
+    ).innerText =
+        currentPage + " / " + totalPages;
+
+
+    /* FINAL PAGE EFFECT */
+
+    if (currentPage === totalPages) {
+
+        createFinalHearts();
+
+        /* Surprise button appears after a few seconds */
+
+        setTimeout(() => {
+
+            document.getElementById(
+                "surpriseButton"
+            ).style.display = "block";
+
+        }, 4500);
+
+    }
+
+}
+
+
+/* =====================================================
+   SHOW SURPRISE BUTTON
+===================================================== */
+
+function showSurpriseButton() {
+
+    const surprise =
+        document.getElementById(
+            "surpriseButton"
+        );
+
+    surprise.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   OPEN SURPRISE
+===================================================== */
+
+function openSurprise() {
+
+    const overlay =
+        document.getElementById(
+            "surpriseOverlay"
+        );
+
+    const envelope =
+        document.getElementById(
+            "envelope"
+        );
+
+
+    overlay.classList.add(
+        "show"
+    );
+
+
+    /* Small delay before envelope opens */
+
+    setTimeout(() => {
+
+        envelope.classList.add(
+            "open"
+        );
+
+        createSurpriseHearts();
+
+    }, 650);
+
+}
+
+
+/* =====================================================
+   CLOSE SURPRISE
+===================================================== */
+
+function closeSurprise() {
+
+    const overlay =
+        document.getElementById(
+            "surpriseOverlay"
+        );
+
+    const envelope =
+        document.getElementById(
+            "envelope"
+        );
+
+
+    envelope.classList.remove(
+        "open"
+    );
+
+
+    setTimeout(() => {
+
+        overlay.classList.remove(
+            "show"
+        );
+
+    }, 400);
+
+}
+
+
+/* =====================================================
+   FINAL HEARTS
+===================================================== */
+
+function createFinalHearts() {
+
+    for (let i = 0; i < 30; i++) {
+
+        const heart =
+            document.createElement("div");
+
+
+        heart.innerHTML =
+            Math.random() > .5
+            ? "♥"
+            : "♡";
+
+
+        heart.style.position =
+            "fixed";
+
+
+        heart.style.left =
+            Math.random() * 100 + "%";
+
+
+        heart.style.bottom =
+            "-40px";
+
+
+        heart.style.color =
+            Math.random() > .5
+            ? "#ed5b99"
+            : "#efa4c4";
+
+
+        heart.style.fontSize =
+            15 +
+            Math.random() * 30 +
+            "px";
+
+
+        heart.style.pointerEvents =
+            "none";
+
+
+        heart.style.zIndex =
+            "20";
+
+
+        heart.style.textShadow =
+            "0 5px 18px rgba(220,70,130,.25)";
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+        const duration =
+            3 +
+            Math.random() * 3;
+
+
+        heart.animate(
+
+            [
+
+                {
+                    transform:
+                        "translateY(0) rotate(0deg) scale(.6)",
+
+                    opacity: 0
+                },
+
+                {
+                    transform:
+                        "translateY(-35vh) rotate(20deg) scale(1)",
+
+                    opacity: 1
+                },
+
+                {
+                    transform:
+                        `translateY(-115vh)
+                         rotate(${Math.random() * 100 - 50}deg)
+                         scale(1.15)`,
+
+                    opacity: 0
+                }
+
+            ],
+
+            {
+
+                duration:
+                    duration * 1000,
+
+                easing:
+                    "cubic-bezier(.2,.7,.2,1)"
+
+            }
+
+        );
+
+
+        setTimeout(() => {
+
+            heart.remove();
+
+        }, duration * 1000);
+
+    }
+
+}
+
+
+/* =====================================================
+   SURPRISE HEARTS
+===================================================== */
+
+function createSurpriseHearts() {
+
+    for (let i = 0; i < 40; i++) {
+
+        const heart =
+            document.createElement("div");
+
+
+        heart.innerHTML =
+            Math.random() > .5
+            ? "♥"
+            : "♡";
+
+
+        heart.style.position =
+            "fixed";
+
+
+        heart.style.left =
+            Math.random() * 100 + "%";
+
+
+        heart.style.top =
+            Math.random() * 100 + "%";
+
+
+        heart.style.color =
+            "#ffffff";
+
+
+        heart.style.fontSize =
+            12 +
+            Math.random() * 24 +
+            "px";
+
+
+        heart.style.pointerEvents =
+            "none";
+
+
+        heart.style.zIndex =
+            "101";
+
+
+        heart.style.opacity =
+            "0";
+
+
+        document.body.appendChild(
+            heart
+        );
+
+
+        const x =
+            (Math.random() - .5) * 250;
+
+        const y =
+            (Math.random() - .5) * 250;
+
+
+        heart.animate(
+
+            [
+
+                {
+                    transform:
+                        "translate(0,0) scale(.3)",
+
+                    opacity: 0
+
+                },
+
+                {
+                    transform:
+                        `translate(${x}px,${y}px)
+                         scale(1)`,
+
+                    opacity: .8
+
+                },
+
+                {
+                    transform:
+                        `translate(${x * 1.5}px,
+                                   ${y * 1.5}px)
+                         scale(.5)`,
+
+                    opacity: 0
+
+                }
+
+            ],
+
+            {
+
+                duration:
+                    2200 +
+                    Math.random() * 1600,
+
+                easing:
+                    "ease-out"
+
+            }
+
+        );
+
+
+        setTimeout(() => {
+
+            heart.remove();
+
+        }, 4000);
+
+    }
+
+}
+
+</script>
 
 </body>
 </html>
